@@ -26,7 +26,7 @@ public class Order {
     private Long id;
 
     @Column(name = "fk_receptionist")
-    private Long receptionist;
+    private Long receptionistId;
 
     @Column(name = "fk_technician")
     private Long technicianId;
@@ -45,33 +45,27 @@ public class Order {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
-
-    @Column(name = "finish_date")
-    private LocalDateTime finishDate;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderStatus status;
 
-    @Column(name = "service_details")
-    private String serviceDetails;
-
-    public Order(Long receptionist, Long technicianId, Client client, Equipment equipment,
-                 String equipmentProblem, LocalDateTime creationDate, OrderStatus status, String serviceDetails) {
-        this.receptionist = receptionist;
+    public Order(Long receptionistId, Long technicianId, Client client, Equipment equipment,
+                 String equipmentProblem, LocalDateTime creationDate, OrderStatus status) {
+        this.receptionistId = receptionistId;
         this.technicianId = technicianId;
         this.client = client;
         this.equipment = equipment;
         this.equipmentProblem = equipmentProblem;
         this.creationDate = creationDate;
         this.status = status;
-        this.serviceDetails = serviceDetails;
+    }
+
+    public void updateOrderStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public static Order of(OrderRequest request, Client client, Equipment equipment) {
         return new Order(request.receptionistId(), request.technicianId(), client, equipment,
-                request.equipmentProblem(), LocalDateTime.now(), OrderStatus.P, request.serviceDetails());
+                request.equipmentProblem(), LocalDateTime.now(), OrderStatus.P);
     }
 }

@@ -5,7 +5,8 @@ import com.marcosrod.serviceorder.modules.order.model.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long>, QuerydslPredicateExecutor<Order> {
     Page<Order> findAllByTechnicianIdAndStatus(Pageable pageable, Long id, OrderStatus status);
 }

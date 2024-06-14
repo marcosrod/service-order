@@ -10,6 +10,6 @@ CREATE TABLE users (
 
 
 INSERT INTO users (id, name, email, password, role) VALUES
-    (1, 'userRecep', 'userRecep@example.com', 'passwordR', 'R'),
-    (2, 'userTech', 'userTech@example.com', 'passwordT', 'T'),
-    (3, 'userTech2', 'userTech2@example.com', 'passwordT', 'T');
+    (1, 'userRecep', 'userRecep@example.com', '$2a$10$OqKSmav2A5T0jeqnp05N4.W1pK1XmEvhQ3rJwuAPWuQHU.qDoPBgG', 'R'),
+    (2, 'userTech', 'userTech@example.com', '$2a$10$fW1nbDS2FUYRfQEF.4oacuHspC0pEWbJdez3ktXAEZggToKRYGAeC', 'T'),
+    (3, 'userTech2', 'userTech2@example.com', '$2a$10$fW1nbDS2FUYRfQEF.4oacuHspC0pEWbJdez3ktXAEZggToKRYGAeC', 'T');

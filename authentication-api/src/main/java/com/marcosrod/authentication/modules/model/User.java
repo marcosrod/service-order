@@ -34,8 +34,8 @@ public class User {
     @Column(name = "role")
     private Role role;
 
-    public static User of(UserRequest request) {
-        return new User(request.name(), request.email(), request.password(),
+    public static User of(UserRequest request, String encodedPassword) {
+        return new User(request.name(), request.email(), encodedPassword,
                 request.role());
     }
 

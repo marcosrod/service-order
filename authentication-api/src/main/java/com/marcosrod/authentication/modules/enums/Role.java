@@ -1,7 +1,7 @@
 package com.marcosrod.authentication.modules.enums;
 
 public enum Role {
-    R("Recepcionist"),
+    R("Receptionist"),
     T("Technician");
 
     private String description;

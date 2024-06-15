@@ -46,7 +46,7 @@ public class UserService {
         }
     }
 
-    public boolean existsByIds(List<Long> userIds) {
+    public boolean findUsersById(List<Long> userIds) {
         return repository.findAllById(userIds).size() == userIds.size();
     }
 

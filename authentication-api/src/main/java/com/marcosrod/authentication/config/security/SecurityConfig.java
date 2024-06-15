@@ -2,6 +2,7 @@ package com.marcosrod.authentication.config.security;
 
 import com.marcosrod.authentication.config.security.filter.JwtAuthFilter;
 import com.marcosrod.authentication.config.security.service.UserDetailsJpaService;
+import com.marcosrod.authentication.modules.enums.Role;
 import com.marcosrod.authentication.modules.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private static final String USERS_API_URI = "/api/users";
     private final JwtAuthFilter authFilter;
 
     @Bean
@@ -38,8 +40,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
         return http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/users/login").permitAll()
-                        .requestMatchers("/api/users").authenticated()
+                        .requestMatchers(USERS_API_URI + "/login").permitAll()
+                        .requestMatchers(USERS_API_URI, USERS_API_URI + "/exists")
+                        .authenticated()
+                        .anyRequest()
+                        .hasRole(Role.R.getDescription())
                 )
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

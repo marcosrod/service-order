@@ -1,13 +1,10 @@
 package com.marcosrod.authentication.modules.controller;
 
 import com.marcosrod.authentication.config.security.dto.AuthRequest;
-import com.marcosrod.authentication.config.security.service.JwtService;
-import com.marcosrod.authentication.config.security.service.UserDetailsJpaService;
 import com.marcosrod.authentication.modules.dto.UserRequest;
 import com.marcosrod.authentication.modules.dto.UserResponse;
 import com.marcosrod.authentication.modules.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +21,9 @@ public class UserController {
         return service.save(request);
     }
 
-    @GetMapping
-    public boolean existsByIds(@RequestParam List<Long> userIds) {
-        return service.existsByIds(userIds);
+    @GetMapping("exists")
+    public boolean findUsersById(@RequestParam List<Long> userIds) {
+        return service.findUsersById(userIds);
     }
 
     @PostMapping("login")

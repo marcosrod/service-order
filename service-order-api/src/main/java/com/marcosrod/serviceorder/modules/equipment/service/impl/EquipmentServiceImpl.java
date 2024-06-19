@@ -1,5 +1,6 @@
 package com.marcosrod.serviceorder.modules.equipment.service.impl;
 
+import com.marcosrod.serviceorder.common.enums.ValidationError;
 import com.marcosrod.serviceorder.common.exception.ValidationException;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentRequest;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentResponse;
@@ -25,13 +26,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     private void validateDuplicatedEquipment(String type, String model) {
         if (repository.existsByTypeAndModel(type, model)) {
-            throw new ValidationException("This equipment is already registered.");
+            throw new ValidationException(ValidationError.EQUIPMENT_ALREADY_EXISTS.getMessage());
         }
     }
 
     public Equipment findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ValidationException("This equipment doesn't exists."));
+                .orElseThrow(() -> new ValidationException(ValidationError.EQUIPMENT_NOT_FOUND.getMessage()));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.marcosrod.serviceorder.modules.order.service.impl;
 
+import com.marcosrod.serviceorder.common.enums.ValidationError;
 import com.marcosrod.serviceorder.modules.client.service.ClientService;
 import com.marcosrod.serviceorder.common.exception.ValidationException;
 import com.marcosrod.serviceorder.modules.equipment.service.EquipmentService;
@@ -33,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderTrackingService orderTrackingService;
 
     public OrderResponse save(OrderRequest request) {
-        validateEmployeeIds(List.of(request.receptionistId(), request.technicianId()));
+        validateUserIds(List.of(request.receptionistId(), request.technicianId()));
         validateDuplicatedClientOrder(request.clientId(), request.equipmentId());
         var client = clientService.findById(request.clientId());
         var equipment = equipmentService.findById(request.equipmentId());
@@ -46,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     private void validateDuplicatedClientOrder(Long clientId, Long equipmentId) {
         if (repository.findByClientIdAndEquipmentIdAndStatusNot(clientId, equipmentId,
                 OrderStatus.F).isPresent()) {
-            throw new ValidationException("There's already an open Order for this same Client and Equipment.");
+            throw new ValidationException(ValidationError.ORDER_ALREADY_EXISTS.getMessage());
         }
     }
 
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 
     private Order findById(Long orderId) {
         return repository.findById(orderId)
-                .orElseThrow(() -> new ValidationException("This service order doesn't exists."));
+                .orElseThrow(() -> new ValidationException(ValidationError.ORDER_NOT_FOUND.getMessage()));
     }
 
     public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable, Long id) {
@@ -74,9 +75,9 @@ public class OrderServiceImpl implements OrderService {
                 .map(OrderResponse::of);
     }
 
-    private void validateEmployeeIds(List<Long> employeeIds) {
+    private void validateUserIds(List<Long> employeeIds) {
         if (!userService.existsByIds(employeeIds)) {
-            throw new ValidationException("One or more requested employees doesn't exists.");
+            throw new ValidationException(ValidationError.USER_NOT_FOUND.getMessage());
         }
     }
 }

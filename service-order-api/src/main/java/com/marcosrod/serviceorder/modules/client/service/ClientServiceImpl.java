@@ -1,5 +1,6 @@
 package com.marcosrod.serviceorder.modules.client.service;
 
+import com.marcosrod.serviceorder.common.enums.ValidationError;
 import com.marcosrod.serviceorder.modules.client.dto.ClientRequest;
 import com.marcosrod.serviceorder.modules.client.dto.ClientResponse;
 import com.marcosrod.serviceorder.modules.client.model.Client;
@@ -25,13 +26,13 @@ public class ClientServiceImpl implements ClientService {
 
     private void validateDuplicatedClient(String email, String phone) {
         if (repository.existsByEmail(email)) {
-            throw new ValidationException("This email is already registered.");
+            throw new ValidationException(ValidationError.CLIENT_EMAIL_ALREADY_EXISTS.getMessage());
         } else if (repository.existsByPhone(phone)) {
-            throw new ValidationException("This phone is already registered.");
+            throw new ValidationException(ValidationError.CLIENT_PHONE_ALREADY_EXISTS.getMessage());
         }
     }
     public Client findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ValidationException("This client doesn't exists"));
+                .orElseThrow(() -> new ValidationException(ValidationError.CLIENT_NOT_FOUND.getMessage()));
     }
 }

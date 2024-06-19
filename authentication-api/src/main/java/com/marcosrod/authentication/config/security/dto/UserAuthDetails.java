@@ -19,7 +19,7 @@ public class UserAuthDetails implements UserDetails {
     public UserAuthDetails(User user) {
         email = user.getEmail();
         password = user.getPassword();
-        authorities = Stream.of(user.getRole().getDescription())
+        authorities = Stream.of(user.getRole().getAuthority())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

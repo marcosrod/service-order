@@ -10,6 +10,11 @@ public enum Role {
         return description;
     }
 
+    public String getAuthority() {
+        return "ROLE_" + description;
+    }
+
+
     Role(String description) {
         this.description = description;
     }

@@ -7,6 +7,7 @@ import com.marcosrod.authentication.modules.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -40,11 +41,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
         return http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(USERS_API_URI + "/login").permitAll()
-                        .requestMatchers(USERS_API_URI, USERS_API_URI + "/exists")
-                        .authenticated()
+                        .requestMatchers(HttpMethod.POST, USERS_API_URI + "/login")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST, USERS_API_URI)
+                        .hasAuthority(Role.R.getAuthority())
+                        .requestMatchers(HttpMethod.GET, USERS_API_URI + "/exists")
+                        .hasAuthority(Role.R.getAuthority())
                         .anyRequest()
-                        .hasRole(Role.R.getDescription())
+                        .authenticated()
                 )
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

@@ -1,6 +1,6 @@
-package com.marcosrod.authentication.modules.repository;
+package com.marcosrod.authentication.modules.user.repository;
 
-import com.marcosrod.authentication.modules.model.User;
+import com.marcosrod.authentication.modules.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,9 +1,9 @@
-package com.marcosrod.authentication.modules.service.impl;
+package com.marcosrod.authentication.modules.authentication.service.impl;
 
-import com.marcosrod.authentication.config.security.dto.AuthRequest;
+import com.marcosrod.authentication.modules.authentication.dto.AuthRequest;
 import com.marcosrod.authentication.config.security.service.JwtService;
 import com.marcosrod.authentication.config.security.service.UserDetailsJpaService;
-import com.marcosrod.authentication.modules.service.AuthService;
+import com.marcosrod.authentication.modules.authentication.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

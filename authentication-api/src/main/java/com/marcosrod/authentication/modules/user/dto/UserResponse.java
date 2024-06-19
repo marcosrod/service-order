@@ -1,6 +1,6 @@
-package com.marcosrod.authentication.modules.dto;
+package com.marcosrod.authentication.modules.user.dto;
 
-import com.marcosrod.authentication.modules.model.User;
+import com.marcosrod.authentication.modules.user.model.User;
 
 public record UserResponse(Long id, String name, String email, String role) {
 

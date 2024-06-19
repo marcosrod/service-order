@@ -1,11 +1,11 @@
-package com.marcosrod.authentication.modules.service.impl;
+package com.marcosrod.authentication.modules.user.service.impl;
 
 import com.marcosrod.authentication.modules.common.exception.ValidationException;
-import com.marcosrod.authentication.modules.dto.UserRequest;
-import com.marcosrod.authentication.modules.dto.UserResponse;
-import com.marcosrod.authentication.modules.model.User;
-import com.marcosrod.authentication.modules.repository.UserRepository;
-import com.marcosrod.authentication.modules.service.UserService;
+import com.marcosrod.authentication.modules.user.dto.UserRequest;
+import com.marcosrod.authentication.modules.user.dto.UserResponse;
+import com.marcosrod.authentication.modules.user.model.User;
+import com.marcosrod.authentication.modules.user.repository.UserRepository;
+import com.marcosrod.authentication.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

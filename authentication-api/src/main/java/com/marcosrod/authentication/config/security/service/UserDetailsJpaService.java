@@ -1,7 +1,7 @@
 package com.marcosrod.authentication.config.security.service;
 
 import com.marcosrod.authentication.config.security.dto.UserAuthDetails;
-import com.marcosrod.authentication.modules.repository.UserRepository;
+import com.marcosrod.authentication.modules.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

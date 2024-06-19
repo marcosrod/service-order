@@ -1,6 +1,6 @@
 package com.marcosrod.authentication.config.security.dto;
 
-import com.marcosrod.authentication.modules.model.User;
+import com.marcosrod.authentication.modules.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

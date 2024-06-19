@@ -2,8 +2,8 @@ package com.marcosrod.authentication.config.security;
 
 import com.marcosrod.authentication.config.security.filter.JwtAuthFilter;
 import com.marcosrod.authentication.config.security.service.UserDetailsJpaService;
-import com.marcosrod.authentication.modules.enums.Role;
-import com.marcosrod.authentication.modules.repository.UserRepository;
+import com.marcosrod.authentication.modules.user.enums.Role;
+import com.marcosrod.authentication.modules.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,8 +41,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
         return http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(HttpMethod.POST, USERS_API_URI + "/login")
-                        .permitAll()
+                        .requestMatchers("swagger-ui/**", "v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
                         .requestMatchers(HttpMethod.POST, USERS_API_URI)
                         .hasAuthority(Role.R.getAuthority())
                         .requestMatchers(HttpMethod.GET, USERS_API_URI + "/exists")

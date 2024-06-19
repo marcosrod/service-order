@@ -1,7 +1,7 @@
-package com.marcosrod.authentication.modules.model;
+package com.marcosrod.authentication.modules.user.model;
 
-import com.marcosrod.authentication.modules.dto.UserRequest;
-import com.marcosrod.authentication.modules.enums.Role;
+import com.marcosrod.authentication.modules.user.dto.UserRequest;
+import com.marcosrod.authentication.modules.user.enums.Role;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

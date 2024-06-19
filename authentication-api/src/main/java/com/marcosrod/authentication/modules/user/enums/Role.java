@@ -1,4 +1,4 @@
-package com.marcosrod.authentication.modules.enums;
+package com.marcosrod.authentication.modules.user.enums;
 
 public enum Role {
     R("Receptionist"),

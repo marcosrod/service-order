@@ -4,7 +4,7 @@ public enum Role {
     R("Receptionist"),
     T("Technician");
 
-    private String description;
+    private final String description;
 
     public String getAuthority() {
         return "ROLE_" + description;

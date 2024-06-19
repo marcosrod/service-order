@@ -1,5 +1,8 @@
 package com.marcosrod.serviceorder.modules.order.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum OrderStatus {
 
     P("Pending"),
@@ -7,13 +10,9 @@ public enum OrderStatus {
     PD("Paused"),
     F("Finished");
 
-    public String getDescription() {
-        return description;
-    }
+    private final String description;
 
     OrderStatus(String description) {
         this.description = description;
     }
-
-    private String description;
 }

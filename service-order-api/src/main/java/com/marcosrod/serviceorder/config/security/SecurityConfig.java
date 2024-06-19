@@ -26,6 +26,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("swagger-ui/**", "v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, API_URI)
                         .hasAuthority(Role.R.getAuthority())
                         .requestMatchers(HttpMethod.PUT, API_URI)

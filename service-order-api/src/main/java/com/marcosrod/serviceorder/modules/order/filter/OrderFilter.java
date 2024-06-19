@@ -1,10 +1,8 @@
 package com.marcosrod.serviceorder.modules.order.filter;
 
 import com.marcosrod.serviceorder.modules.order.enums.OrderStatus;
-import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 public class OrderFilter {
 

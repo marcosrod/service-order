@@ -1,4 +1,6 @@
 package com.marcosrod.authentication.modules.authentication.dto;
 
-public record AuthRequest(String email, String password) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record AuthRequest(@NotEmpty String email, @NotEmpty String password) {
 }

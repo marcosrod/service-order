@@ -1,6 +1,8 @@
 package com.marcosrod.authentication.modules.user.dto;
 
 import com.marcosrod.authentication.modules.user.enums.Role;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-public record UserRequest(String name, String email, String password, Role role) {
+public record UserRequest(@NotEmpty String name, @NotEmpty String email, @NotEmpty String password, @NotNull Role role) {
 }

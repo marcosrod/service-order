@@ -3,6 +3,7 @@ package com.marcosrod.authentication.modules.user.controller;
 import com.marcosrod.authentication.modules.user.dto.UserRequest;
 import com.marcosrod.authentication.modules.user.dto.UserResponse;
 import com.marcosrod.authentication.modules.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public UserResponse save(@RequestBody UserRequest request) {
+    public UserResponse save(@RequestBody @Valid UserRequest request) {
         return service.save(request);
     }
 

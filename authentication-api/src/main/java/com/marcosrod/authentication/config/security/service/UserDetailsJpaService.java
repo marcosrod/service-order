@@ -1,6 +1,7 @@
 package com.marcosrod.authentication.config.security.service;
 
 import com.marcosrod.authentication.config.security.dto.UserAuthDetails;
+import com.marcosrod.authentication.modules.common.enums.ValidationError;
 import com.marcosrod.authentication.modules.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,6 @@ public class UserDetailsJpaService implements UserDetailsService {
         var user = repository.findByEmail(email);
 
         return user.map(UserAuthDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("Invalid user email."));
+                .orElseThrow(() -> new UsernameNotFoundException(ValidationError.USER_EMAIL_NOT_FOUND.getMessage()));
     }
 }

@@ -1,5 +1,6 @@
 package com.marcosrod.authentication.modules.user.service.impl;
 
+import com.marcosrod.authentication.modules.common.enums.ValidationError;
 import com.marcosrod.authentication.modules.common.exception.ValidationException;
 import com.marcosrod.authentication.modules.user.dto.UserRequest;
 import com.marcosrod.authentication.modules.user.dto.UserResponse;
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     private void validateDuplicatedEmail(String email) {
         if (repository.existsByEmail(email)) {
-            throw new ValidationException("This email is already registered.");
+            throw new ValidationException(ValidationError.USER_EMAIL_ALREADY_EXISTS.getMessage());
         }
     }
 

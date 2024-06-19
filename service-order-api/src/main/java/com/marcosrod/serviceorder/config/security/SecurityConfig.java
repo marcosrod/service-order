@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .hasAuthority(Role.R.getAuthority())
                         .requestMatchers(HttpMethod.PUT, ORDERS_API_URI)
                         .hasAuthority(Role.T.getAuthority())
-                        .requestMatchers(HttpMethod.GET, ORDERS_API_URI + "/{id}/pending")
+                        .requestMatchers(HttpMethod.GET, ORDERS_API_URI + "/pending")
                         .hasAuthority(Role.T.getAuthority())
                         .requestMatchers(HttpMethod.GET, ORDERS_API_URI + "/{id}/progress", ORDERS_API_URI + "/report")
                         .hasAuthority(Role.R.getAuthority())

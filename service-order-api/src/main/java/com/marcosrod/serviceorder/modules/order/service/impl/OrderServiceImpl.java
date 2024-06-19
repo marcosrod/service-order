@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.marcosrod.serviceorder.config.security.JwtUtil.getAuthenticatedUserId;
+
 @RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -70,8 +72,8 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ValidationException(ValidationError.ORDER_NOT_FOUND.getMessage()));
     }
 
-    public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable, Long id) {
-        return repository.findAllByTechnicianIdAndStatus(pageable, id, OrderStatus.P)
+    public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable) {
+        return repository.findAllByTechnicianIdAndStatus(pageable, getAuthenticatedUserId(), OrderStatus.P)
                 .map(OrderResponse::of);
     }
 

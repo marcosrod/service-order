@@ -1,4 +1,4 @@
-CREATE SEQUENCE client_seq START WITH 2 INCREMENT BY 1;
+CREATE SEQUENCE client_seq START WITH 3 INCREMENT BY 1;
 CREATE SEQUENCE equipment_seq START WITH 3 INCREMENT BY 1;
 CREATE SEQUENCE service_order_seq START WITH 2 INCREMENT BY 1;
 CREATE SEQUENCE service_order_tracking_seq START WITH 2 INCREMENT BY 1;
@@ -41,6 +41,8 @@ CREATE TABLE service_order_tracking (
 
 INSERT INTO client (id, name, address, phone, email) VALUES
     (1, 'client', 'client address', 'client phone', 'client@email.com');
+INSERT INTO client (id, name, address, phone, email) VALUES
+    (2, 'client2', 'client address2', 'client phone2', 'client2@email.com');
 
 INSERT INTO equipment (id, type, model) VALUES
     (1, 'printer', 'HP');

@@ -12,5 +12,5 @@ public interface OrderService {
     OrderResponse save(OrderRequest request);
     OrderResponse updateOrderStatus(OrderProgressRequest request);
     Page<OrderReport> getOrderReport(Pageable pageable, OrderFilter filter);
-    Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable, Long id);
+    Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable);
 }

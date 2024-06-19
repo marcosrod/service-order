@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -28,10 +29,9 @@ public class OrderController {
         return service.updateOrderStatus(request);
     }
 
-    @GetMapping("{id}/pending")
-    public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable,
-                                                               @PathVariable Long id) {
-        return service.findPendingOrdersByTechnicianId(pageable, id);
+    @GetMapping("pending")
+    public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable) {
+        return service.findPendingOrdersByTechnicianId(pageable);
     }
 
     @GetMapping("{id}/progress")

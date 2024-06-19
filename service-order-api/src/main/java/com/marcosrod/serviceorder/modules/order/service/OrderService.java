@@ -41,10 +41,9 @@ public class OrderService {
         return OrderResponse.of(savedOrder);
     }
 
-    //TODO
     private void validateDuplicatedClientOrder(Long clientId, Long equipmentId) {
         if (repository.findByClientIdAndEquipmentIdAndStatusNot(clientId, equipmentId,
-                OrderStatus.F).isEmpty()) {
+                OrderStatus.F).isPresent()) {
             throw new ValidationException("There's already an open Order for this same Client and Equipment.");
         }
     }

@@ -44,6 +44,8 @@ INSERT INTO client (id, name, address, phone, email) VALUES
 
 INSERT INTO equipment (id, type, model) VALUES
     (1, 'printer', 'HP');
+INSERT INTO equipment (id, type, model) VALUES
+    (2, 'printer', 'DELL');
 
 INSERT INTO service_order (id, fk_receptionist, fk_technician, fk_client, fk_equipment,
  equipment_problem, creation_date, status) VALUES

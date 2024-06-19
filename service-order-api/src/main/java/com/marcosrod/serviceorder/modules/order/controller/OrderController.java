@@ -33,7 +33,7 @@ public class OrderController {
         return service.findPendingOrdersByTechnicianId(pageable, id);
     }
 
-    @GetMapping("{id}/tracking")
+    @GetMapping("{id}/progress")
     public Page<OrderTrackingResponse> findProgressTrackingByOrderId(Pageable pageable, @PathVariable("id") Long id) {
         return orderTrackingService.findProgressTrackingByOrderId(pageable, id);
     }

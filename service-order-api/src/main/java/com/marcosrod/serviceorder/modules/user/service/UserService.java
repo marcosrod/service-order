@@ -1,21 +1,24 @@
 package com.marcosrod.serviceorder.modules.user.service;
 
 import com.marcosrod.serviceorder.common.exception.ValidationException;
+import com.marcosrod.serviceorder.config.WebClientConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
     @Value("${app.config.services.user-api}")
     private String USER_API_URI;
+    private final WebClientConfig webClient;
 
     public Boolean existsByIds(List<Long> userIds) {
-        return WebClient.create()
+        return webClient.rest()
                 .get()
                 .uri(UriComponentsBuilder
                         .fromHttpUrl(USER_API_URI)

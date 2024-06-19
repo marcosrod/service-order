@@ -32,12 +32,21 @@ public class OrderService {
 
     public OrderResponse save(OrderRequest request) {
         validateEmployeeIds(List.of(request.receptionistId(), request.technicianId()));
+        validateDuplicatedClientOrder(request.clientId(), request.equipmentId());
         var client = clientService.findById(request.clientId());
         var equipment = equipmentService.findById(request.equipmentId());
 
         var savedOrder = repository.save(Order.of(request, client, equipment));
 
         return OrderResponse.of(savedOrder);
+    }
+
+    //TODO
+    private void validateDuplicatedClientOrder(Long clientId, Long equipmentId) {
+        if (repository.findByClientIdAndEquipmentIdAndStatusNot(clientId, equipmentId,
+                OrderStatus.F).isEmpty()) {
+            throw new ValidationException("There's already an open Order for this same Client and Equipment.");
+        }
     }
 
     @Transactional

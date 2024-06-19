@@ -40,7 +40,7 @@ public class UserService {
                 .authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(request.email());
+            return jwtService.generateToken(request.email(), authentication.getAuthorities());
         } else {
             throw new UsernameNotFoundException("Invalid email or password.");
         }

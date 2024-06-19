@@ -4,6 +4,7 @@ import com.marcosrod.serviceorder.modules.order.dto.*;
 import com.marcosrod.serviceorder.modules.order.filter.OrderFilter;
 import com.marcosrod.serviceorder.modules.order.service.OrderService;
 import com.marcosrod.serviceorder.modules.order.service.OrderTrackingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,23 +19,23 @@ public class OrderController {
     private final OrderTrackingService orderTrackingService;
 
     @PostMapping
-    public OrderResponse save(@RequestBody OrderRequest request) {
+    public OrderResponse save(@RequestBody @Valid OrderRequest request) {
         return service.save(request);
     }
 
     @PutMapping
-    public OrderResponse updateOrderStatus(@RequestBody OrderProgressRequest request) {
+    public OrderResponse updateOrderStatus(@RequestBody @Valid OrderProgressRequest request) {
         return service.updateOrderStatus(request);
     }
 
     @GetMapping("{id}/pending")
     public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable,
-                                                               @PathVariable("id") Long id) {
+                                                               @PathVariable Long id) {
         return service.findPendingOrdersByTechnicianId(pageable, id);
     }
 
     @GetMapping("{id}/progress")
-    public Page<OrderTrackingResponse> findProgressTrackingByOrderId(Pageable pageable, @PathVariable("id") Long id) {
+    public Page<OrderTrackingResponse> findProgressTrackingByOrderId(Pageable pageable, @PathVariable Long id) {
         return orderTrackingService.findProgressTrackingByOrderId(pageable, id);
     }
 

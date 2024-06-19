@@ -3,6 +3,7 @@ package com.marcosrod.serviceorder.modules.equipment.controller;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentRequest;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentResponse;
 import com.marcosrod.serviceorder.modules.equipment.service.EquipmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ public class EquipmentController {
     private final EquipmentService service;
 
     @PostMapping
-    public EquipmentResponse save(@RequestBody EquipmentRequest request) {
+    public EquipmentResponse save(@RequestBody @Valid EquipmentRequest request) {
         return service.save(request);
     }
 }

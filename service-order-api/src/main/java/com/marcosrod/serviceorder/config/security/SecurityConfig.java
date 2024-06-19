@@ -20,20 +20,24 @@ public class SecurityConfig {
 
     @Value("${spring.security.jwt-secret}")
     private String jwtKey;
-    private static final String API_URI = "/api/orders";
+    private static final String ORDERS_API_URI = "/api/orders";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("swagger-ui/**", "v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, API_URI)
+                        .requestMatchers(HttpMethod.POST, "/api/clients")
                         .hasAuthority(Role.R.getAuthority())
-                        .requestMatchers(HttpMethod.PUT, API_URI)
+                        .requestMatchers(HttpMethod.POST, "/api/equipments")
+                        .hasAuthority(Role.R.getAuthority())
+                        .requestMatchers(HttpMethod.POST, ORDERS_API_URI)
+                        .hasAuthority(Role.R.getAuthority())
+                        .requestMatchers(HttpMethod.PUT, ORDERS_API_URI)
                         .hasAuthority(Role.T.getAuthority())
-                        .requestMatchers(HttpMethod.GET, API_URI + "/{id}/pending")
+                        .requestMatchers(HttpMethod.GET, ORDERS_API_URI + "/{id}/pending")
                         .hasAuthority(Role.T.getAuthority())
-                        .requestMatchers(HttpMethod.GET, API_URI + "/{id}/progress", API_URI + "/report")
+                        .requestMatchers(HttpMethod.GET, ORDERS_API_URI + "/{id}/progress", ORDERS_API_URI + "/report")
                         .hasAuthority(Role.R.getAuthority())
                         .anyRequest()
                         .authenticated()

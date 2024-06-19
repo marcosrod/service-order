@@ -1,4 +1,7 @@
 package com.marcosrod.serviceorder.modules.client.dto;
 
-public record ClientRequest(String name, String address, String phone, String email) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record ClientRequest(@NotEmpty String name, @NotEmpty String address, @NotEmpty String phone,
+                            @NotEmpty String email) {
 }

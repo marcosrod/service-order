@@ -24,8 +24,9 @@ public class JwtService {
     @Value("${spring.security.jwt-secret}")
     private String jwtSecret;
 
-    public String generateToken(String userName, Collection<? extends GrantedAuthority> authorities) {
+    public String generateToken(Long userId, String userName, Collection<? extends GrantedAuthority> authorities) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
         claims.put("authorities", authorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -30,6 +31,12 @@ public class UserServiceImpl implements UserService {
 
     public boolean findUsersById(List<Long> userIds) {
         return repository.findAllById(userIds).size() == userIds.size();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new ValidationException(ValidationError.USER_EMAIL_NOT_FOUND.getMessage()));
     }
 
     private void validateDuplicatedEmail(String email) {

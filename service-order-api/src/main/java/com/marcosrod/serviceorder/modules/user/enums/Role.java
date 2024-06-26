@@ -1,5 +1,8 @@
 package com.marcosrod.serviceorder.modules.user.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
     R("Receptionist"),
     T("Technician");

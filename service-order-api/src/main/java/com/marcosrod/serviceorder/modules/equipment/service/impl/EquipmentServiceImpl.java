@@ -1,7 +1,7 @@
 package com.marcosrod.serviceorder.modules.equipment.service.impl;
 
-import com.marcosrod.serviceorder.common.enums.ValidationError;
-import com.marcosrod.serviceorder.common.exception.ValidationException;
+import com.marcosrod.serviceorder.modules.common.enums.ValidationError;
+import com.marcosrod.serviceorder.modules.common.exception.ValidationException;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentRequest;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentResponse;
 import com.marcosrod.serviceorder.modules.equipment.model.Equipment;
@@ -18,10 +18,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     public EquipmentResponse save(EquipmentRequest request) {
         validateDuplicatedEquipment(request.type(), request.model());
+        var equipmentToSave = new Equipment(request.type(), request.model());
+        var savedEquipment = repository.save(equipmentToSave);
 
-        var savedEquipment = repository.save(Equipment.of(request));
-
-        return EquipmentResponse.of(savedEquipment);
+        return new EquipmentResponse(savedEquipment.getId(), savedEquipment.getType(), savedEquipment.getModel());
     }
 
     private void validateDuplicatedEquipment(String type, String model) {

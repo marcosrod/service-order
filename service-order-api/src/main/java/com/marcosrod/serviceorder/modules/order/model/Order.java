@@ -2,16 +2,13 @@ package com.marcosrod.serviceorder.modules.order.model;
 
 import com.marcosrod.serviceorder.modules.client.model.Client;
 import com.marcosrod.serviceorder.modules.equipment.model.Equipment;
-import com.marcosrod.serviceorder.modules.order.dto.OrderRequest;
 import com.marcosrod.serviceorder.modules.order.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @ToString
@@ -62,10 +59,5 @@ public class Order {
 
     public void updateOrderStatus(OrderStatus status) {
         this.status = status;
-    }
-
-    public static Order of(OrderRequest request, Client client, Equipment equipment) {
-        return new Order(request.receptionistId(), request.technicianId(), client, equipment,
-                request.equipmentProblem(), LocalDateTime.now(), OrderStatus.P);
     }
 }

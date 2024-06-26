@@ -1,4 +1,4 @@
-package com.marcosrod.serviceorder.common.exception;
+package com.marcosrod.serviceorder.modules.common.exception;
 
 public class ValidationException extends RuntimeException {
 

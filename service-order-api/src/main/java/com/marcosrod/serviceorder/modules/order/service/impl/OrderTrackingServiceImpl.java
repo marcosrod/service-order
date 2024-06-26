@@ -1,5 +1,6 @@
 package com.marcosrod.serviceorder.modules.order.service.impl;
 
+import com.marcosrod.serviceorder.modules.common.util.TimeProvider;
 import com.marcosrod.serviceorder.modules.order.dto.OrderTrackingResponse;
 import com.marcosrod.serviceorder.modules.order.model.Order;
 import com.marcosrod.serviceorder.modules.order.model.OrderTracking;
@@ -15,9 +16,12 @@ import org.springframework.stereotype.Service;
 public class OrderTrackingServiceImpl implements OrderTrackingService {
 
     private final OrderTrackingRepository repository;
+    private final TimeProvider timeProvider;
 
     public void save(Order order, String progressDetails) {
-        repository.save(OrderTracking.of(order, progressDetails));
+        var orderTrackingToSave = new OrderTracking(order, order.getStatus(), progressDetails,
+                timeProvider.getLocalDateTimeNow());
+        repository.save(orderTrackingToSave);
     }
 
     public Page<OrderTrackingResponse> findProgressTrackingByOrderId(Pageable pageable, Long orderId) {

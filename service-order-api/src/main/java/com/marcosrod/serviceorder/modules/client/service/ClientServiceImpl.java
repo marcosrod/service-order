@@ -1,11 +1,11 @@
 package com.marcosrod.serviceorder.modules.client.service;
 
-import com.marcosrod.serviceorder.common.enums.ValidationError;
+import com.marcosrod.serviceorder.modules.common.enums.ValidationError;
 import com.marcosrod.serviceorder.modules.client.dto.ClientRequest;
 import com.marcosrod.serviceorder.modules.client.dto.ClientResponse;
 import com.marcosrod.serviceorder.modules.client.model.Client;
 import com.marcosrod.serviceorder.modules.client.repository.ClientRepository;
-import com.marcosrod.serviceorder.common.exception.ValidationException;
+import com.marcosrod.serviceorder.modules.common.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,11 @@ public class ClientServiceImpl implements ClientService {
 
     public ClientResponse save(ClientRequest request) {
         validateDuplicatedClient(request.email(), request.phone());
+        var clientToSave = new Client(request.name(), request.address(), request.phone(), request.email());
+        var savedClient = repository.save(clientToSave);
 
-        var savedClient = repository.save(Client.of(request));
-
-        return ClientResponse.of(savedClient);
+        return new ClientResponse(savedClient.getId(), savedClient.getName(), savedClient.getAddress(),
+                savedClient.getPhone(), savedClient.getEmail());
 
     }
 

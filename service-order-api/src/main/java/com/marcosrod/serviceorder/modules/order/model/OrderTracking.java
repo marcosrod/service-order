@@ -2,13 +2,11 @@ package com.marcosrod.serviceorder.modules.order.model;
 
 import com.marcosrod.serviceorder.modules.order.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode
@@ -41,9 +39,5 @@ public class OrderTracking {
         this.status = status;
         this.progressDetails = progressDetails;
         this.progressDate = progressDate;
-    }
-
-    public static OrderTracking of(Order order, String progressDetails) {
-        return new OrderTracking(order, order.getStatus(), progressDetails, LocalDateTime.now());
     }
 }

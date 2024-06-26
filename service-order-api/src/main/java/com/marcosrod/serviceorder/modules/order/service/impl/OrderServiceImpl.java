@@ -1,10 +1,12 @@
 package com.marcosrod.serviceorder.modules.order.service.impl;
 
-import com.marcosrod.serviceorder.common.enums.ValidationError;
+import com.marcosrod.serviceorder.config.security.authentication.service.JwtService;
+import com.marcosrod.serviceorder.modules.common.enums.ValidationError;
+import com.marcosrod.serviceorder.modules.common.util.TimeProvider;
 import com.marcosrod.serviceorder.modules.client.service.ClientService;
-import com.marcosrod.serviceorder.common.exception.ValidationException;
+import com.marcosrod.serviceorder.modules.common.exception.ValidationException;
 import com.marcosrod.serviceorder.modules.equipment.service.EquipmentService;
-import com.marcosrod.serviceorder.modules.order.dto.OrderReport;
+import com.marcosrod.serviceorder.modules.order.dto.OrderReportResponse;
 import com.marcosrod.serviceorder.modules.order.dto.OrderRequest;
 import com.marcosrod.serviceorder.modules.order.dto.OrderResponse;
 import com.marcosrod.serviceorder.modules.order.dto.OrderProgressRequest;
@@ -23,8 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.marcosrod.serviceorder.config.security.JwtUtil.getAuthenticatedUserId;
-
 @RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -34,14 +34,18 @@ public class OrderServiceImpl implements OrderService {
     private final ClientService clientService;
     private final EquipmentService equipmentService;
     private final OrderTrackingService orderTrackingService;
+    private final TimeProvider timeProvider;
+    private final JwtService jwtService;
 
     public OrderResponse save(OrderRequest request) {
         validateUserIds(List.of(request.receptionistId(), request.technicianId()));
         validateDuplicatedClientOrder(request.clientId(), request.equipmentId());
         var client = clientService.findById(request.clientId());
         var equipment = equipmentService.findById(request.equipmentId());
+        var orderToSave = new Order(request.receptionistId(), request.technicianId(), client, equipment,
+                request.equipmentProblem(), timeProvider.getLocalDateTimeNow(), OrderStatus.P);
 
-        var savedOrder = repository.save(Order.of(request, client, equipment));
+        var savedOrder = repository.save(orderToSave);
 
         return OrderResponse.of(savedOrder);
     }
@@ -62,9 +66,9 @@ public class OrderServiceImpl implements OrderService {
         return OrderResponse.of(order);
     }
 
-    public Page<OrderReport> getOrderReport(Pageable pageable, OrderFilter filter) {
+    public Page<OrderReportResponse> getOrderReport(Pageable pageable, OrderFilter filter) {
         return repository.findAll(filter.toPredicate().build(), pageable)
-                .map(OrderReport::of);
+                .map(OrderReportResponse::of);
     }
 
     private Order findById(Long orderId) {
@@ -73,13 +77,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable) {
-        return repository.findAllByTechnicianIdAndStatus(pageable, getAuthenticatedUserId(), OrderStatus.P)
+        return repository.findAllByTechnicianIdAndStatus(pageable, jwtService.getAuthenticatedUserId(), OrderStatus.P)
                 .map(OrderResponse::of);
     }
 
-    private void validateUserIds(List<Long> employeeIds) {
-        if (!userService.existsByIds(employeeIds)) {
-            throw new ValidationException(ValidationError.USER_NOT_FOUND.getMessage());
+    private void validateUserIds(List<Long> userIds) {
+        if (!userService.existsByIds(userIds)) {
+            throw new ValidationException(ValidationError.USERS_NOT_FOUND.getMessage());
         }
     }
 }

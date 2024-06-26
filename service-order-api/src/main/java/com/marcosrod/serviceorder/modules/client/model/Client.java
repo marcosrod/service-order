@@ -1,6 +1,5 @@
 package com.marcosrod.serviceorder.modules.client.model;
 
-import com.marcosrod.serviceorder.modules.client.dto.ClientRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,6 +7,7 @@ import lombok.*;
 @ToString
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "client")
 public class Client {
@@ -34,9 +34,5 @@ public class Client {
         this.address = address;
         this.phone = phone;
         this.email = email;
-    }
-
-    public static Client of(ClientRequest request) {
-        return new Client(request.name(), request.address(), request.phone(), request.email());
     }
 }

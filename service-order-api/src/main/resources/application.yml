@@ -29,3 +29,6 @@ app:
 logging:
   level:
       org.springframework.web: DEBUG
+      org.springframework.security: DEBUG
+      org.springframework.security.access.intercept: DEBUG
+      org.springframework.security.web.access: DEBUG

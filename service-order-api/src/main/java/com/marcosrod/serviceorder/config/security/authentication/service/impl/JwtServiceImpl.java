@@ -1,12 +1,15 @@
-package com.marcosrod.serviceorder.config.security;
+package com.marcosrod.serviceorder.config.security.authentication.service.impl;
 
+import com.marcosrod.serviceorder.config.security.authentication.service.JwtService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.stereotype.Service;
 
-public class JwtUtil {
+@Service
+public class JwtServiceImpl implements JwtService {
 
-    public static Long getAuthenticatedUserId() {
+    public Long getAuthenticatedUserId() {
         JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getCredentials();
 

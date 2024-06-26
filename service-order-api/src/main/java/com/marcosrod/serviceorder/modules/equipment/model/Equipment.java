@@ -1,6 +1,5 @@
 package com.marcosrod.serviceorder.modules.equipment.model;
 
-import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,6 +7,7 @@ import lombok.*;
 @ToString
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "equipment")
 public class Equipment {
@@ -26,9 +26,5 @@ public class Equipment {
     public Equipment(String type, String model) {
         this.type = type;
         this.model = model;
-    }
-
-    public static Equipment of(EquipmentRequest request) {
-        return new Equipment(request.model(), request.type());
     }
 }

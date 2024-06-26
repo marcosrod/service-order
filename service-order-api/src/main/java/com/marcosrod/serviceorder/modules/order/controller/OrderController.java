@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class OrderController {
     }
 
     @GetMapping("report")
-    public Page<OrderReport> getOrderReport(Pageable pageable, OrderFilter filter) {
+    public Page<OrderReportResponse> getOrderReport(Pageable pageable, OrderFilter filter) {
         return service.getOrderReport(pageable, filter);
     }
 }

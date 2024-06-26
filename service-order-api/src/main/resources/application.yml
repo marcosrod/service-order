@@ -24,11 +24,3 @@ app:
     local-url: http://localhost
     services:
       user-api: ${app.config.local-url}:8081/api/users/exists
-
-
-logging:
-  level:
-      org.springframework.web: DEBUG
-      org.springframework.security: DEBUG
-      org.springframework.security.access.intercept: DEBUG
-      org.springframework.security.web.access: DEBUG

@@ -1,6 +1,6 @@
 package com.marcosrod.authentication.config.security.filter;
 
-import com.marcosrod.authentication.config.security.service.JwtService;
+import com.marcosrod.authentication.config.security.service.impl.JwtServiceImpl;
 import com.marcosrod.authentication.config.security.service.UserDetailsJpaService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtService;
     private final UserDetailsJpaService userDetailsService;
 
     @Override

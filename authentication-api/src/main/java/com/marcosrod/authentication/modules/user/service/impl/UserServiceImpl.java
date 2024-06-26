@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,14 +20,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
 
+    @Override
     public UserResponse save(UserRequest request) {
         validateDuplicatedEmail(request.email());
+        var userToSave = new User(request.name(), request.email(), encoder.encode(request.password()),
+                request.role());
+        var savedUser = repository.save(userToSave);
 
-        var savedUser = repository.save(User.of(request, encoder.encode(request.password())));
-
-        return UserResponse.of(savedUser);
+        return new UserResponse(savedUser.getId(), savedUser.getName(), savedUser.getEmail(),
+                savedUser.getRole().getDescription());
     }
 
+    @Override
     public boolean findUsersById(List<Long> userIds) {
         return repository.findAllById(userIds).size() == userIds.size();
     }

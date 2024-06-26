@@ -1,17 +1,14 @@
 package com.marcosrod.authentication.modules.user.model;
 
-import com.marcosrod.authentication.modules.user.dto.UserRequest;
 import com.marcosrod.authentication.modules.user.enums.Role;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @EqualsAndHashCode
 @ToString
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -33,11 +30,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
-
-    public static User of(UserRequest request, String encodedPassword) {
-        return new User(request.name(), request.email(), encodedPassword,
-                request.role());
-    }
 
     public User(String name, String email, String password, Role role) {
         this.name = name;

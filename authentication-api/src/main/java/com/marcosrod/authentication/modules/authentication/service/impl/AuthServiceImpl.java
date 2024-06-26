@@ -1,7 +1,7 @@
 package com.marcosrod.authentication.modules.authentication.service.impl;
 
-import com.marcosrod.authentication.modules.authentication.dto.AuthRequest;
 import com.marcosrod.authentication.config.security.service.JwtService;
+import com.marcosrod.authentication.modules.authentication.dto.AuthRequest;
 import com.marcosrod.authentication.modules.authentication.service.AuthService;
 import com.marcosrod.authentication.modules.common.enums.ValidationError;
 import com.marcosrod.authentication.modules.user.service.UserService;

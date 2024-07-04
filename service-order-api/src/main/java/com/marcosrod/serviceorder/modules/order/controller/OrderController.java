@@ -1,10 +1,10 @@
 package com.marcosrod.serviceorder.modules.order.controller;
 
+import com.marcosrod.serviceorder.modules.order.controller.contract.IOrderController;
 import com.marcosrod.serviceorder.modules.order.dto.*;
 import com.marcosrod.serviceorder.modules.order.filter.OrderFilter;
 import com.marcosrod.serviceorder.modules.order.service.OrderService;
 import com.marcosrod.serviceorder.modules.order.service.OrderTrackingService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,33 +12,32 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/orders")
-public class OrderController {
+public class OrderController implements IOrderController {
 
     private final OrderService service;
     private final OrderTrackingService orderTrackingService;
 
-    @PostMapping
-    public OrderResponse save(@RequestBody @Valid OrderRequest request) {
+    @Override
+    public OrderResponse save(OrderRequest request) {
         return service.save(request);
     }
 
-    @PutMapping
-    public OrderResponse updateOrderStatus(@RequestBody @Valid OrderProgressRequest request) {
+    @Override
+    public OrderResponse updateOrderStatus(OrderProgressRequest request) {
         return service.updateOrderStatus(request);
     }
 
-    @GetMapping("pending")
+    @Override
     public Page<OrderResponse> findPendingOrdersByTechnicianId(Pageable pageable) {
         return service.findPendingOrdersByTechnicianId(pageable);
     }
 
-    @GetMapping("{id}/progress")
-    public Page<OrderTrackingResponse> findProgressTrackingByOrderId(Pageable pageable, @PathVariable Long id) {
+    @Override
+    public Page<OrderTrackingResponse> findProgressTrackingByOrderId(Pageable pageable, Long id) {
         return orderTrackingService.findProgressTrackingByOrderId(pageable, id);
     }
 
-    @GetMapping("report")
+    @Override
     public Page<OrderReportResponse> getOrderReport(Pageable pageable, OrderFilter filter) {
         return service.getOrderReport(pageable, filter);
     }

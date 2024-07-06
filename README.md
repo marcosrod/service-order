@@ -10,6 +10,7 @@
 
 - Caso tenha algum problema, verifique se na sua máquina já estão sendo utilizadas algumas das portas necessárias para o funcionamento dos containers.
 - Portas dos microserviços: 8886 e 8887
+- Para desligar a aplicação, rode: `sudo docker-compose down`
 
 ## Utilização dos endpoints
 - A aplicação possui mapeamento de todos os endpoints com Swagger.

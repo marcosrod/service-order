@@ -3,7 +3,7 @@
 ## Como iniciar a aplicação
 - Pré-requisitos: Ter o Docker e Docker Compose instalados no terminal.
 
-1. Entre na pasta do projeto clonada a partir do terminal.
+1. Entre na pasta do projeto clonada, na raiz onde existe o arquivo `docker-compose.yml`, a partir do terminal.
 2. Rode o comando: `sudo docker-compose up --build`
 3. Aguarde a aplicação buildar e subir os containers.
 4. Pronto!

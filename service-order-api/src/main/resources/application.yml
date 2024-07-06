@@ -13,11 +13,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
 
 app:
   config:

@@ -189,7 +189,7 @@ public class OrderServiceTest {
         var savedOrder = getSavedOrder();
         var filter = getOrderFilter();
         var predicate = filter.toPredicate().build();
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
 
         Page<Order> ordersPage = new PageImpl<>(Collections.singletonList(savedOrder), pageable, TEST_ID_ONE);
 
@@ -205,7 +205,7 @@ public class OrderServiceTest {
     void getOrderReport_shouldReturnEmptyPage_whenNoOrdersFound() {
         var filter = getOrderFilter();
         var predicate = filter.toPredicate().build();
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
 
         Page<Order> emptyOrderPage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);
         Page<OrderReportResponse> emptyReportResponsePage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);
@@ -220,7 +220,7 @@ public class OrderServiceTest {
 
     @Test
     void findPendingOrdersByTechnicianId_shouldReturnPageOrderResponse_whenRequested() {
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
 
         Page<Order> ordersPage = new PageImpl<>(Collections.singletonList(getSavedOrder()), pageable, TEST_ID_ONE);
 
@@ -236,7 +236,7 @@ public class OrderServiceTest {
 
     @Test
     void findPendingOrdersByTechnicianId_shouldEmptyPage_whenNoOrdersFound() {
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
 
         Page<Order> emptyOrdersPage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);
         Page<OrderResponse> emptyOrdersResponsePage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);

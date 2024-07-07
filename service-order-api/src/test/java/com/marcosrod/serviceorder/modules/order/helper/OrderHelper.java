@@ -95,20 +95,20 @@ public class OrderHelper {
 
     public static Page<OrderResponse> getOrderResponsePage() {
         return new PageImpl<>(Collections.singletonList(getOrderResponse()),
-                getOrderPageable(), TEST_ID_ONE);
+                getPageable(), TEST_ID_ONE);
     }
 
     public static Page<OrderTrackingResponse> getOrderTrackingResponsePage() {
         return new PageImpl<>(Collections.singletonList(getOrderTrackingResponse()),
-                getOrderPageable(), TEST_ID_ONE);
+                getPageable(), TEST_ID_ONE);
     }
 
     public static Page<OrderReportResponse> getOrderReportResponsePage() {
         return new PageImpl<>(Collections.singletonList(getOrderReportResponse()),
-                getOrderPageable(), TEST_ID_ONE);
+                getPageable(), TEST_ID_ONE);
     }
 
-    public static Pageable getOrderPageable() {
+    public static Pageable getPageable() {
         return PageRequest.of(0, 10, Sort.by(ID_ATTRIBUTE));
     }
 }

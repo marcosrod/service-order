@@ -1,5 +1,6 @@
 package com.marcosrod.serviceorder.modules.client.service;
 
+import com.marcosrod.serviceorder.modules.client.filter.ClientFilter;
 import com.marcosrod.serviceorder.modules.common.enums.ValidationError;
 import com.marcosrod.serviceorder.modules.client.dto.ClientRequest;
 import com.marcosrod.serviceorder.modules.client.dto.ClientResponse;
@@ -7,6 +8,8 @@ import com.marcosrod.serviceorder.modules.client.model.Client;
 import com.marcosrod.serviceorder.modules.client.repository.ClientRepository;
 import com.marcosrod.serviceorder.modules.common.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -14,6 +17,12 @@ import org.springframework.stereotype.Service;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository repository;
+
+    @Override
+    public Page<ClientResponse> getAll(Pageable pageable, ClientFilter filter) {
+        return repository.findAll(filter.toPredicate().build(), pageable)
+                .map(ClientResponse::of);
+    }
 
     public ClientResponse save(ClientRequest request) {
         validateDuplicatedClient(request.email(), request.phone());

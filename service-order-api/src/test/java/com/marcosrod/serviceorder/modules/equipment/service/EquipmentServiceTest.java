@@ -2,6 +2,7 @@ package com.marcosrod.serviceorder.modules.equipment.service;
 
 import com.marcosrod.serviceorder.modules.common.enums.ValidationError;
 import com.marcosrod.serviceorder.modules.common.exception.ValidationException;
+import com.marcosrod.serviceorder.modules.equipment.model.Equipment;
 import com.marcosrod.serviceorder.modules.equipment.repository.EquipmentRepository;
 import com.marcosrod.serviceorder.modules.equipment.service.impl.EquipmentServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -9,11 +10,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static com.marcosrod.serviceorder.modules.common.helper.ConstantUtil.TEST_ID_ONE;
 import static com.marcosrod.serviceorder.modules.equipment.helper.EquipmentHelper.*;
+import static com.marcosrod.serviceorder.modules.order.helper.OrderHelper.getPageable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,6 +32,37 @@ public class EquipmentServiceTest {
     private EquipmentServiceImpl service;
     @Mock
     private EquipmentRepository repository;
+
+    @Test
+    void getAll_shouldReturnPageEquipmentResponse_whenRequested() {
+        var savedEquipment = getSavedEquipment();
+        var pageable = getPageable();
+        var filter = getEquipmentFilter();
+        var predicate = filter.toPredicate().build();
+        Page<Equipment> equipmentsPage = new PageImpl<>(Collections.singletonList(savedEquipment), pageable, TEST_ID_ONE);
+
+        doReturn(equipmentsPage).when(repository).findAll(predicate, pageable);
+
+        assertThat(service.getAll(pageable, filter))
+                .isEqualTo(getEquipmentResponsePage());
+
+        verify(repository).findAll(predicate, pageable);
+    }
+
+    @Test
+    void getAll_shouldReturnEmptyPage_whenNoEquipmentsFound() {
+        var pageable = getPageable();
+        var filter = getEquipmentFilter();
+        var predicate = filter.toPredicate().build();
+        Page<Equipment> emptyPage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);
+
+        doReturn(emptyPage).when(repository).findAll(predicate, pageable);
+
+        assertThat(service.getAll(pageable, filter))
+                .isEmpty();
+
+        verify(repository).findAll(predicate, pageable);
+    }
 
     @Test
     void save_shouldReturnEquipmentResponse_whenValidRequest() {

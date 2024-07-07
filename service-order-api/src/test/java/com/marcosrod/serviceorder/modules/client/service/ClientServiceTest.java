@@ -1,5 +1,6 @@
 package com.marcosrod.serviceorder.modules.client.service;
 
+import com.marcosrod.serviceorder.modules.client.model.Client;
 import com.marcosrod.serviceorder.modules.common.enums.ValidationError;
 import com.marcosrod.serviceorder.modules.common.exception.ValidationException;
 import com.marcosrod.serviceorder.modules.client.repository.ClientRepository;
@@ -8,11 +9,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static com.marcosrod.serviceorder.modules.client.helper.ClientHelper.*;
 import static com.marcosrod.serviceorder.modules.common.helper.ConstantUtil.TEST_ID_ONE;
+import static com.marcosrod.serviceorder.modules.order.helper.OrderHelper.getPageable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +31,37 @@ public class ClientServiceTest {
     private ClientServiceImpl service;
     @Mock
     private ClientRepository repository;
+
+    @Test
+    void getAll_shouldReturnPageClientResponse_whenRequested() {
+        var savedClient = getSavedClient();
+        var pageable = getPageable();
+        var filter = getClientFilter();
+        var predicate = filter.toPredicate().build();
+        Page<Client> clientsPage = new PageImpl<>(Collections.singletonList(savedClient), pageable, TEST_ID_ONE);
+
+        doReturn(clientsPage).when(repository).findAll(predicate, pageable);
+
+        assertThat(service.getAll(pageable, filter))
+                .isEqualTo(getClientResponsePage());
+
+        verify(repository).findAll(predicate, pageable);
+    }
+
+    @Test
+    void getAll_shouldReturnEmptyPage_whenNoClientsFound() {
+        var pageable = getPageable();
+        var filter = getClientFilter();
+        var predicate = filter.toPredicate().build();
+        Page<Client> emptyPage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);
+
+        doReturn(emptyPage).when(repository).findAll(predicate, pageable);
+
+        assertThat(service.getAll(pageable, filter))
+                .isEmpty();
+
+        verify(repository).findAll(predicate, pageable);
+    }
 
     @Test
     void save_shouldReturnClientResponse_whenValidRequest() {

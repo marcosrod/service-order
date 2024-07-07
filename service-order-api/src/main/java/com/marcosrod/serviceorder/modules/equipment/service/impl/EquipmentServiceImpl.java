@@ -4,10 +4,13 @@ import com.marcosrod.serviceorder.modules.common.enums.ValidationError;
 import com.marcosrod.serviceorder.modules.common.exception.ValidationException;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentRequest;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentResponse;
+import com.marcosrod.serviceorder.modules.equipment.filter.EquipmentFilter;
 import com.marcosrod.serviceorder.modules.equipment.model.Equipment;
 import com.marcosrod.serviceorder.modules.equipment.repository.EquipmentRepository;
 import com.marcosrod.serviceorder.modules.equipment.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -15,6 +18,12 @@ import org.springframework.stereotype.Service;
 public class EquipmentServiceImpl implements EquipmentService {
 
     private final EquipmentRepository repository;
+
+    @Override
+    public Page<EquipmentResponse> getAll(Pageable pageable, EquipmentFilter filter) {
+        return repository.findAll(filter.toPredicate().build(), pageable)
+                .map(EquipmentResponse::of);
+    }
 
     public EquipmentResponse save(EquipmentRequest request) {
         validateDuplicatedEquipment(request.type(), request.model());
@@ -34,5 +43,4 @@ public class EquipmentServiceImpl implements EquipmentService {
         return repository.findById(id)
                 .orElseThrow(() -> new ValidationException(ValidationError.EQUIPMENT_NOT_FOUND.getMessage()));
     }
-
 }

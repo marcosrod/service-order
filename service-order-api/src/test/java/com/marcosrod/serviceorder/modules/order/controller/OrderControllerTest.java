@@ -206,7 +206,7 @@ public class OrderControllerTest {
     @SneakyThrows
     @Test
     void findPendingOrdersByTechnicianId_shouldReturnOkAndPageOrderResponse_whenRequested() {
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
         var orderResponsePage = getOrderResponsePage();
         var orderResponse = getOrderResponse();
 
@@ -258,7 +258,7 @@ public class OrderControllerTest {
     @SneakyThrows
     @Test
     void findProgressTrackingByOrderId_shouldReturnOkAndPageTrackingResponse_whenRequested() {
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
         var trackingResponsePage = getOrderTrackingResponsePage();
         var trackingResponse = getOrderTrackingResponse();
 
@@ -307,7 +307,7 @@ public class OrderControllerTest {
     @SneakyThrows
     @Test
     void getOrderReport_shouldReturnOkAndOrderReportResponsePage_whenRequested() {
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
         var reportResponsePage = getOrderReportResponsePage();
         var reportResponse = getOrderReportResponse();
 

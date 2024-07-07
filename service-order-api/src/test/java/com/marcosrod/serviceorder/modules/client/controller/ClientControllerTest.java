@@ -17,11 +17,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.marcosrod.serviceorder.modules.client.helper.ClientHelper.getClientRequest;
-import static com.marcosrod.serviceorder.modules.client.helper.ClientHelper.getClientResponse;
+import static com.marcosrod.serviceorder.modules.client.helper.ClientHelper.*;
 import static com.marcosrod.serviceorder.modules.common.helper.ConstantUtil.*;
 import static com.marcosrod.serviceorder.modules.common.helper.JsonHelper.asJsonString;
 import static com.marcosrod.serviceorder.modules.common.helper.JwtHelper.*;
+import static com.marcosrod.serviceorder.modules.order.helper.OrderHelper.getPageable;
+import static java.lang.String.valueOf;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,6 +38,54 @@ public class ClientControllerTest {
     private MockMvc mvc;
     @MockBean
     private ClientServiceImpl service;
+
+    @SneakyThrows
+    @Test
+    void getAll_shouldReturnOkAndPageClientResponse_whenRequested() {
+        var clientResponse = getClientResponse();
+        var pageable = getPageable();
+        var clientResponsePage = getClientResponsePage();
+
+        doReturn(clientResponsePage).when(service).getAll(eq(pageable), any());
+
+        mvc.perform(MockMvcRequestBuilders.get(API_URI)
+                        .header(AUTHORIZATION_HEADER,
+                                BEARER_TOKEN_PREFIX + getJwtToken(TEST_USER_EMAIL, Role.R.getAuthority()))
+                        .param(PAGEABLE_PAGE_NUMBER, valueOf(pageable.getPageNumber()))
+                        .param(PAGEABLE_PAGE_SIZE, valueOf(pageable.getPageSize()))
+                        .param(PAGEABLE_SORT, ID_ATTRIBUTE)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").value(clientResponse.id()))
+                .andExpect(jsonPath("$.content[0].name").value(clientResponse.name()))
+                .andExpect(jsonPath("$.content[0].address").value(clientResponse.address()))
+                .andExpect(jsonPath("$.content[0].phone").value(clientResponse.phone()))
+                .andExpect(jsonPath("$.content[0].email").value(clientResponse.email()));
+
+        verify(service).getAll(eq(pageable), any());
+    }
+
+    @SneakyThrows
+    @Test
+    void getAll_shouldReturnForbidden_whenUserHasNoPermission() {
+        mvc.perform(MockMvcRequestBuilders.get(API_URI)
+                        .header(AUTHORIZATION_HEADER,
+                                BEARER_TOKEN_PREFIX + getJwtToken(TEST_USER_EMAIL, Role.T.getAuthority()))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(status().isForbidden());
+
+        verify(service, never()).getAll(any(), any());
+    }
+
+    @SneakyThrows
+    @Test
+    void getAll_shouldReturnUnauthorized_whenUserNotAuthenticated() {
+        mvc.perform(MockMvcRequestBuilders.get(API_URI)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(status().isUnauthorized());
+
+        verify(service, never()).getAll(any(), any());
+    }
 
     @SneakyThrows
     @Test

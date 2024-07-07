@@ -3,8 +3,11 @@ package com.marcosrod.serviceorder.modules.equipment.controller;
 import com.marcosrod.serviceorder.modules.equipment.controller.contract.IEquipmentController;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentRequest;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentResponse;
+import com.marcosrod.serviceorder.modules.equipment.filter.EquipmentFilter;
 import com.marcosrod.serviceorder.modules.equipment.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -16,5 +19,10 @@ public class EquipmentController implements IEquipmentController {
     @Override
     public EquipmentResponse save(EquipmentRequest request) {
         return service.save(request);
+    }
+
+    @Override
+    public Page<EquipmentResponse> getAll(Pageable pageable, EquipmentFilter filter) {
+        return service.getAll(pageable, filter);
     }
 }

@@ -48,7 +48,7 @@ public class OrderTrackingServiceTest {
 
     @Test
     void findProgressTrackingByOrderId_shouldReturnPageTrackingResponse_whenRequested() {
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
 
         Page<OrderTracking> orderTrackingPage = new PageImpl<>(Collections.singletonList(getSavedOrderTracking()),
                 pageable, TEST_ID_ONE);
@@ -63,7 +63,7 @@ public class OrderTrackingServiceTest {
 
     @Test
     void findProgressTrackingByOrderId_shouldReturnEmptyPage_whenNoOrderTrackingFound() {
-        var pageable = getOrderPageable();
+        var pageable = getPageable();
 
         Page<OrderTracking> emptyTrackingPage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);
         Page<OrderTrackingResponse> emptyTrackingResponsePage = new PageImpl<>(List.of(),

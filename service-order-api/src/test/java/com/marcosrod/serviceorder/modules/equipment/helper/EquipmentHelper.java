@@ -3,6 +3,7 @@ package com.marcosrod.serviceorder.modules.equipment.helper;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentRequest;
 import com.marcosrod.serviceorder.modules.equipment.dto.EquipmentResponse;
 import com.marcosrod.serviceorder.modules.equipment.filter.EquipmentFilter;
+import com.marcosrod.serviceorder.modules.equipment.filter.EquipmentPredicate;
 import com.marcosrod.serviceorder.modules.equipment.model.Equipment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -42,5 +43,20 @@ public class EquipmentHelper {
         filter.setId(TEST_ID_ONE);
 
         return filter;
+    }
+
+    public static EquipmentFilter getEquipmentAllParametersFilter() {
+        var savedEquipment = getSavedEquipment();
+
+        return new EquipmentFilter(savedEquipment.getId(), savedEquipment.getType(), savedEquipment.getModel());
+    }
+
+    public static EquipmentPredicate getEquipmentAllParametersPredicate() {
+        var savedEquipment = getSavedEquipment();
+
+        return new EquipmentPredicate()
+                .withId(savedEquipment.getId())
+                .withType(savedEquipment.getType())
+                .withModel(savedEquipment.getModel());
     }
 }

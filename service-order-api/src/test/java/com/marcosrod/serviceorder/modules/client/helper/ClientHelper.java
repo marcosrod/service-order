@@ -3,6 +3,7 @@ package com.marcosrod.serviceorder.modules.client.helper;
 import com.marcosrod.serviceorder.modules.client.dto.ClientRequest;
 import com.marcosrod.serviceorder.modules.client.dto.ClientResponse;
 import com.marcosrod.serviceorder.modules.client.filter.ClientFilter;
+import com.marcosrod.serviceorder.modules.client.filter.ClientPredicate;
 import com.marcosrod.serviceorder.modules.client.model.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -44,5 +45,23 @@ public class ClientHelper {
         filter.setId(TEST_ID_ONE);
 
         return filter;
+    }
+
+    public static ClientFilter getClientAllParametersFilter() {
+        var savedClient = getSavedClient();
+
+        return new ClientFilter(savedClient.getId(), savedClient.getName(), savedClient.getAddress(),
+                savedClient.getPhone(), savedClient.getEmail());
+    }
+
+    public static ClientPredicate getClientAllParametersPredicate() {
+        var savedClient = getSavedClient();
+
+        return new ClientPredicate()
+                .withId(savedClient.getId())
+                .withName(savedClient.getName())
+                .withAddress(savedClient.getAddress())
+                .withPhone(savedClient.getPhone())
+                .withEmail(savedClient.getEmail());
     }
 }

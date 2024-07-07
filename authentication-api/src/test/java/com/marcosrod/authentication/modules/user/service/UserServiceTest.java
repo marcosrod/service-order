@@ -2,6 +2,7 @@ package com.marcosrod.authentication.modules.user.service;
 
 import com.marcosrod.authentication.modules.common.enums.ValidationError;
 import com.marcosrod.authentication.modules.common.exception.ValidationException;
+import com.marcosrod.authentication.modules.user.model.User;
 import com.marcosrod.authentication.modules.user.repository.UserRepository;
 import com.marcosrod.authentication.modules.user.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -9,13 +10,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static com.marcosrod.authentication.modules.common.helper.ConstantUtil.TEST_ID_ONE;
 import static com.marcosrod.authentication.modules.common.helper.ConstantUtil.TEST_ID_TWO;
+import static com.marcosrod.authentication.modules.common.helper.TestHelper.getPageable;
 import static com.marcosrod.authentication.modules.user.enums.Role.R;
 import static com.marcosrod.authentication.modules.user.enums.Role.T;
 import static com.marcosrod.authentication.modules.user.helper.UserHelper.*;
@@ -34,6 +39,37 @@ public class UserServiceTest {
     private UserRepository repository;
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Test
+    void getAll_shouldReturnPageUserResponse_whenRequested() {
+        var savedUser = getSavedUser(R);
+        var pageable = getPageable();
+        var filter = getUserFilter();
+        var predicate = filter.toPredicate().build();
+        Page<User> usersPage = new PageImpl<>(Collections.singletonList(savedUser), pageable, TEST_ID_ONE);
+
+        doReturn(usersPage).when(repository).findAll(predicate, pageable);
+
+        assertThat(service.getAll(pageable, filter))
+                .isEqualTo(getUserResponsePage(R));
+
+        verify(repository).findAll(predicate, pageable);
+    }
+
+    @Test
+    void getAll_shouldReturnEmptyPage_whenNoClientsFound() {
+        var pageable = getPageable();
+        var filter = getUserFilter();
+        var predicate = filter.toPredicate().build();
+        Page<User> emptyPage = new PageImpl<>(List.of(), pageable, TEST_ID_ONE);
+
+        doReturn(emptyPage).when(repository).findAll(predicate, pageable);
+
+        assertThat(service.getAll(pageable, filter))
+                .isEmpty();
+
+        verify(repository).findAll(predicate, pageable);
+    }
 
     @Test
     void save_shouldReturnUserResponse_whenReceptionistUserRequested() {

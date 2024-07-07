@@ -4,10 +4,13 @@ import com.marcosrod.authentication.modules.common.enums.ValidationError;
 import com.marcosrod.authentication.modules.common.exception.ValidationException;
 import com.marcosrod.authentication.modules.user.dto.UserRequest;
 import com.marcosrod.authentication.modules.user.dto.UserResponse;
+import com.marcosrod.authentication.modules.user.filter.UserFilter;
 import com.marcosrod.authentication.modules.user.model.User;
 import com.marcosrod.authentication.modules.user.repository.UserRepository;
 import com.marcosrod.authentication.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder encoder;
+
+    @Override
+    public Page<UserResponse> getAll(Pageable pageable, UserFilter filter) {
+        return repository.findAll(filter.toPredicate().build(), pageable)
+                .map(UserResponse::of);
+    }
 
     @Override
     public UserResponse save(UserRequest request) {

@@ -45,6 +45,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
                         .requestMatchers(HttpMethod.POST, USERS_API_URI)
                         .hasAuthority(Role.R.getAuthority())
+                        .requestMatchers(HttpMethod.GET, USERS_API_URI)
+                        .hasAuthority(Role.R.getAuthority())
                         .requestMatchers(HttpMethod.GET, USERS_API_URI + "/exists")
                         .hasAuthority(Role.R.getAuthority())
                         .anyRequest()
